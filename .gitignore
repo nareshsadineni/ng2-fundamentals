@@ -5,3 +5,8 @@ typings
 .vscode/
 
 
+/.vs/ng2-fundamentals-master/v15/.suo
+/.vs/config/applicationhost.config
+/.vs/ProjectSettings.json
+/.vs/slnx.sqlite
+/.vs/VSWorkspaceState.json
