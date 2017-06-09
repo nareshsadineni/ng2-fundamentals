@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+// import {CommonModule} from '@angular/common'
 
 @Component({
     selector: 'my-app',
@@ -6,15 +7,15 @@ import { Component } from '@angular/core';
         <h1>{{title}}</h1>
         <h2>{{hero.name}} details!</h2>
         <div><label>ID: {{hero.id}} </label> </div>
-        <div><label> Name: </label> <input [(ngModel)]= "hero.name" placeholder="name"/> </div>`
-
-    //< ul >
-    //<li *ngFor="let item in heroes">
-    //<label>{{item.id }}</label>
-    //< label > {{item.name }}</label>
-    //< !--each hero goes here -- >
-    //</li>
-    //< /ul>
+        <div><label> Name: </label> <input [(ngModel)]= "hero.name" placeholder="name"/> </div>
+        
+        <ul>
+        <li *ngFor="let hero of heroes">
+        <label>{{hero.id}}</label>
+        <label>{{hero.name}}</label>
+        </li>
+        </ul>
+        `
 })
 
 export class AppComponent {
