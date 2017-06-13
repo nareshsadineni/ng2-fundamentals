@@ -1,24 +1,23 @@
-import { Component } from '@angular/core';
-// import {CommonModule} from '@angular/common'
+import { Component, Input, OnInit } from '@angular/core';
+
+import { HeroDetailComponent } from './hero-detail.component';
+import { Hero } from './hero'
+import { HeroService } from './hero.service'
 
 @Component({
   selector: 'my-app',
+  // templateUrl: './app.component.html',
   template: `
-        <h1>{{title}}</h1>
- 
-        <div *ngIf="selectedHero">
-               <h2>{{selectedHero.name}} details!</h2>
-        <div><label>ID: {{selectedHero.id}} </label> </div>
-        <div><label> Name: </label> <input [(ngModel)]= "selectedHero.name" placeholder="name"/> </div>
-        </div>
-        <div class="heroes">
-		    <ul>
-            <li *ngFor="let hero of heroes" (click)="this.onSelect(hero)" >
+          <h1>{{title}}</h1> 
+       		<ul class="heroes">
+            <li *ngFor="let hero of heroes" (click)="this.onSelect(hero)" [class.selected]="hero === selectedHero" >
                 <span class="badge">{{hero.id}}</span> {{hero.name}}
             </li>
-        </ul>
-        </div>
-        `,
+          </ul>
+          
+          <hero-detail [hero] = 'selectedHero'></hero-detail>
+          `,
+  providers: [HeroService],
   styles: [`
   .selected {
     background-color: #CFD8DC !important;
@@ -68,42 +67,32 @@ import { Component } from '@angular/core';
     border-radius: 4px 0 0 4px;
   }
 `]
-
 })
 
 export class AppComponent {
   title = 'Tour of Heroes';
   selectedHero: Hero;
-  Heroes: Hero[] = [
-    { id: 11, name: 'Mr. Nice' },
-    { id: 12, name: 'Narco' },
-    { id: 13, name: 'Bombasto' },
-    { id: 14, name: 'Celeritas' },
-    { id: 15, name: 'Magneta' },
-    { id: 16, name: 'RubberMan' },
-    { id: 17, name: 'Dynama' },
-    { id: 18, name: 'Dr IQ' },
-    { id: 19, name: 'Magma' },
-    { id: 20, name: 'Tornado' }
-  ];
+  heroes: Hero[];
+  heroService: HeroService;
 
-  heroes = this.Heroes;
+  constructor(private heroSvc: HeroService) {
+    this.heroService = heroSvc;
+  }
 
   onSelect(hero: Hero): void {
     this.selectedHero = hero;
   }
 
-  //ngOnInit() {
-  //    this.getData();
-  //}
+  getData(): void {
+    this.heroService.getHeroes().then(heroes => this.heroes = heroes);
+  }
+
+  ngOnInit(): void {
+    this.getData();
+  }
 
   //public getData() {
   //    this.http.get("http://webapiwithazuredatabase20170605114137.azurewebsites.net/api/values/1")
   //        .map(result => JSON.parse(result.json()));
   //}
-}
-
-export class Hero {
-  id: number;
-  name: string;
 }
